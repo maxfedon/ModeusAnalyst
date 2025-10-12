@@ -19,5 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Modeus Analyst"
+rootProject.name = "ModeusAnalyst"
 include(":app")
+ 

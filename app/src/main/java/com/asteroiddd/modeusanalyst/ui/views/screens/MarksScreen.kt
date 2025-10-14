@@ -1,4 +1,4 @@
-package com.asteroiddd.modeusanalyst.views
+package com.asteroiddd.modeusanalyst.ui.views.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -7,21 +7,25 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.style.TextAlign
 import com.asteroiddd.modeusanalyst.ui.theme.LightGray
 import com.asteroiddd.modeusanalyst.ui.theme.PaddingMedium
 import com.asteroiddd.modeusanalyst.ui.theme.PaddingSmall
 import com.asteroiddd.modeusanalyst.ui.theme.Typography
+import com.asteroiddd.modeusanalyst.ui.views.ModuleElement
+import com.asteroiddd.modeusanalyst.ui.views.Screen
 
 @Composable
 fun MarksScreen() {
     Screen {
-        Text(text = "Текущая успеваемость",
+        Text(
+            text = "Текущая успеваемость",
             style = Typography.titleMedium,
             modifier = Modifier
                 .padding(bottom = PaddingMedium)
         )
-        Column(verticalArrangement = Arrangement.spacedBy(PaddingSmall)) {
+        Column(
+            verticalArrangement = Arrangement.spacedBy(PaddingSmall)
+        ) {
             ModuleElement(
                 name = "Модуль",
                 score = "Баллы",

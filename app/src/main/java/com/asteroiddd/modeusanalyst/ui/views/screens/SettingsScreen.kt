@@ -1,4 +1,4 @@
-package com.asteroiddd.modeusanalyst.views
+package com.asteroiddd.modeusanalyst.ui.views.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -10,6 +10,8 @@ import androidx.compose.ui.Modifier
 import com.asteroiddd.modeusanalyst.ui.theme.PaddingMedium
 import com.asteroiddd.modeusanalyst.ui.theme.PaddingSmall
 import com.asteroiddd.modeusanalyst.ui.theme.Typography
+import com.asteroiddd.modeusanalyst.ui.views.Container
+import com.asteroiddd.modeusanalyst.ui.views.Screen
 
 @Composable
 fun SettingsScreen() {

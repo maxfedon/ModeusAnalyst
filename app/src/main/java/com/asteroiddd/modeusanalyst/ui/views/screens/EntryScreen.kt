@@ -1,4 +1,4 @@
-package com.asteroiddd.modeusanalyst.views
+package com.asteroiddd.modeusanalyst.ui.views.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -27,29 +27,30 @@ fun EntryScreen() {
     val mail = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
 
-    Screen {
-        Text(text = "Вход через учётную запись\nТюмГУ",
+    _root_ide_package_.com.asteroiddd.modeusanalyst.ui.views.Screen {
+        Text(
+            text = "Вход через учётную запись\nТюмГУ",
             style = Typography.titleMedium.copy(textAlign = TextAlign.Center),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 100.dp)
         )
         Column(verticalArrangement = Arrangement.spacedBy(PaddingSmall)) {
-            Container {
+            _root_ide_package_.com.asteroiddd.modeusanalyst.ui.views.Container {
                 Input(
                     mail,
                     "username@utmn.study.ru"
                 )
             }
 
-            Container {
+            _root_ide_package_.com.asteroiddd.modeusanalyst.ui.views.Container {
                 Input(
                     password,
                     "Пароль"
                 )
             }
 
-            Container (
+            _root_ide_package_.com.asteroiddd.modeusanalyst.ui.views.Container(
                 clickable = true,
                 onClick = {}
             ) {

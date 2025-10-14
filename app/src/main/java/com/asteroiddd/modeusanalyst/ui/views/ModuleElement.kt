@@ -1,4 +1,4 @@
-package com.asteroiddd.modeusanalyst.views
+package com.asteroiddd.modeusanalyst.ui.views
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -28,16 +28,16 @@ fun ModuleElement(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(text = name,
-                style = Typography.labelMedium.merge(style),
+                style = Typography.bodyMedium.merge(style),
                 modifier = Modifier
                     .weight(4f))
             Text(
                 text = score,
-                style = Typography.labelMedium.copy(textAlign = TextAlign.Center).merge(style),
+                style = Typography.bodyMedium.copy(textAlign = TextAlign.Center).merge(style),
                 modifier = Modifier
                     .weight(1f))
             Text(text = mark,
-                style = Typography.labelMedium.copy(textAlign = TextAlign.Center).merge(style),
+                style = Typography.bodyMedium.copy(textAlign = TextAlign.Center).merge(style),
                 modifier = Modifier
                     .weight(1f))
         }

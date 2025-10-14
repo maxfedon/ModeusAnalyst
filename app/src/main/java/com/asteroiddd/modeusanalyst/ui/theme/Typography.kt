@@ -5,6 +5,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import com.asteroiddd.modeusanalyst.R
 
@@ -16,6 +17,7 @@ val Inter = FontFamily(
 val Common = TextStyle(
     fontFamily = Inter,
     fontWeight = FontWeight.Normal,
+    textAlign = TextAlign.Start,
     color = White,
     letterSpacing = 0.5.sp
 )
@@ -28,11 +30,24 @@ val Typography = Typography(
         lineHeight = 14.sp,
     )),
 
-    // Title
+    // Text
+    bodyLarge = Common.merge(TextStyle(
+        fontSize = 16.sp,
+        lineHeight = 20.sp,
+    )),
+
+    // Screen title
     titleMedium = Common.merge(TextStyle(
         fontWeight = FontWeight.Bold,
-        fontSize = 24.sp,
-        lineHeight = 28.sp,
+        fontSize = 26.sp,
+        lineHeight = 30.sp,
+    )),
+
+    // Block title
+    titleSmall = Common.merge(TextStyle(
+        fontWeight = FontWeight.Bold,
+        fontSize = 20.sp,
+        lineHeight = 24.sp,
     )),
 
     // ModuleName

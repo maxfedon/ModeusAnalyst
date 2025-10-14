@@ -1,15 +1,12 @@
 package com.asteroiddd.modeusanalyst.views
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -17,13 +14,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.asteroiddd.modeusanalyst.ui.theme.PaddingMedium
 import com.asteroiddd.modeusanalyst.ui.theme.PaddingSmall
 import com.asteroiddd.modeusanalyst.ui.theme.Typography
 import com.asteroiddd.modeusanalyst.ui.theme.White
@@ -40,7 +34,7 @@ fun EntryScreen() {
                 .fillMaxWidth()
                 .padding(bottom = 100.dp)
         )
-        Column (verticalArrangement = Arrangement.spacedBy(PaddingSmall)) {
+        Column(verticalArrangement = Arrangement.spacedBy(PaddingSmall)) {
             Container {
                 Input(
                     mail,

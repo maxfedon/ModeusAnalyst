@@ -19,7 +19,8 @@ import com.asteroiddd.modeusanalyst.ui.theme.Shapes
 fun Container(
     clickable: Boolean = false,
     onClick: () -> Unit = {},
-    content: @Composable () -> Unit
+    contentAlignment: Alignment = Alignment.Center,
+    content: @Composable (() -> Unit),
 ) {
     Box(
         modifier = Modifier
@@ -33,7 +34,7 @@ fun Container(
                 .height(64.dp)
                 .padding(PaddingMedium)
                 .background(DarkGray),
-            contentAlignment = Alignment.Center
+            contentAlignment = contentAlignment
         ) {
             content()
         }

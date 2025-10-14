@@ -21,7 +21,7 @@ fun MarksScreen() {
             modifier = Modifier
                 .padding(bottom = PaddingMedium)
         )
-        Column (verticalArrangement = Arrangement.spacedBy(PaddingSmall)) {
+        Column(verticalArrangement = Arrangement.spacedBy(PaddingSmall)) {
             ModuleElement(
                 name = "Модуль",
                 score = "Баллы",

@@ -1,4 +1,4 @@
-package com.asteroiddd.modeusanalyst.ui.views.screens
+package com.asteroiddd.modeusanalyst.ui.screen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,18 +12,16 @@ import androidx.compose.ui.Modifier
 import com.asteroiddd.modeusanalyst.ui.theme.PaddingMedium
 import com.asteroiddd.modeusanalyst.ui.theme.PaddingSmall
 import com.asteroiddd.modeusanalyst.ui.theme.Typography
-import com.asteroiddd.modeusanalyst.ui.views.Block
-import com.asteroiddd.modeusanalyst.ui.views.Screen
+import com.asteroiddd.modeusanalyst.ui.component.Block
+import com.asteroiddd.modeusanalyst.ui.component.Screen
 
 @Composable
-fun ModuleScreen(
-    moduleName: String,
-    commentText: String,
-    learningText: String
+fun CourseScreen(
+    commentText: String
 ) {
     Screen {
         Text(
-            text = moduleName,
+            text = "Общая успеваемость",
             style = Typography.titleMedium,
             modifier = Modifier
                 .padding(bottom = PaddingMedium)
@@ -39,11 +37,11 @@ fun ModuleScreen(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "Баллы",
+                        text = "Средний балл",
                         style = Typography.titleSmall
                     )
                     Text(
-                        text = "42",
+                        text = "58.5",
                         style = Typography.bodyLarge
                     )
                 }
@@ -56,11 +54,11 @@ fun ModuleScreen(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "Оценка",
+                        text = "Средняя оценка",
                         style = Typography.titleSmall
                     )
                     Text(
-                        text = "-",
+                        text = "4.67",
                         style = Typography.bodyLarge
                     )
                 }
@@ -82,21 +80,6 @@ fun ModuleScreen(
                     )
                     Text(
                         text = commentText,
-                        style = Typography.bodyLarge
-                    )
-                }
-            }
-            Block {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                ) {
-                    Text(
-                        text = "Программа",
-                        style = Typography.titleSmall
-                    )
-                    Text(
-                        text =  learningText,
                         style = Typography.bodyLarge
                     )
                 }

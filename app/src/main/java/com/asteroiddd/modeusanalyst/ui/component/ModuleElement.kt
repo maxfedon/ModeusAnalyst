@@ -1,4 +1,4 @@
-package com.asteroiddd.modeusanalyst.ui.views
+package com.asteroiddd.modeusanalyst.ui.component
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth

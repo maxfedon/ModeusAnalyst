@@ -1,4 +1,4 @@
-package com.asteroiddd.modeusanalyst.ui.views
+package com.asteroiddd.modeusanalyst.ui.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

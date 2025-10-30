@@ -1,4 +1,4 @@
-package com.asteroiddd.modeusanalyst.ui.views.screens
+package com.asteroiddd.modeusanalyst.ui.screen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -7,15 +7,16 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
+import androidx.navigation.NavController
+import com.asteroiddd.modeusanalyst.ui.component.ModuleElement
+import com.asteroiddd.modeusanalyst.ui.component.Screen
 import com.asteroiddd.modeusanalyst.ui.theme.LightGray
 import com.asteroiddd.modeusanalyst.ui.theme.PaddingMedium
 import com.asteroiddd.modeusanalyst.ui.theme.PaddingSmall
 import com.asteroiddd.modeusanalyst.ui.theme.Typography
-import com.asteroiddd.modeusanalyst.ui.views.ModuleElement
-import com.asteroiddd.modeusanalyst.ui.views.Screen
 
 @Composable
-fun MarksScreen() {
+fun MarksScreen(navController: NavController) {
     Screen {
         Text(
             text = "Текущая успеваемость",
@@ -36,15 +37,24 @@ fun MarksScreen() {
                 name = "Информационно-технологические решения на базе C# и Java",
                 score = "91",
                 mark = "5",
-                clickable = true
+                clickable = true,
+                onClick = {
+                    navController.navigate("module/Информационно-технологические решения на базе C# и Java/91/5")
+                }
             )
             ModuleElement(
                 name = "Администрирование информационных систем",
-                clickable = true
+                clickable = true,
+                onClick = {
+                    navController.navigate("module/Администрирование информационных систем/0/-")
+                }
             )
             ModuleElement(
                 name = "Web-ориентированные информационные системы",
-                clickable = true
+                clickable = true,
+                onClick = {
+                    navController.navigate("module/Web-ориентированные информационные системы/0/-")
+                }
             )
         }
     }

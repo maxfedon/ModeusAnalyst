@@ -1,4 +1,4 @@
-package com.asteroiddd.modeusanalyst.ui.views
+package com.asteroiddd.modeusanalyst.ui.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -16,11 +16,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.asteroiddd.modeusanalyst.R
 import com.asteroiddd.modeusanalyst.ui.theme.DarkGray
 
 @Composable
-fun ControlBar() {
+fun ControlBar(navController: NavController) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -29,16 +30,16 @@ fun ControlBar() {
         horizontalArrangement = Arrangement.SpaceAround,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        ControlButton(R.drawable.line_chart, "Analyse")
-        ControlButton(R.drawable.home, "Home")
-        ControlButton(R.drawable.gear, "Setting")
+        ControlButton(id = R.drawable.line_chart, desc = "Analyse", onClick = { navController.navigate("course") })
+        ControlButton(id = R.drawable.home, desc = "Home", onClick = { navController.navigate("marks") })
+        ControlButton(id = R.drawable.gear, desc = "Setting", onClick = { navController.navigate("settings") })
     }
 }
 
 @Composable
-fun ControlButton(id: Int, desc: String) {
+fun ControlButton(id: Int, desc: String, onClick: () -> Unit) {
     Button (
-        onClick = {},
+        onClick = onClick,
         modifier = Modifier
             .size(56.dp),
         colors = ButtonColors(

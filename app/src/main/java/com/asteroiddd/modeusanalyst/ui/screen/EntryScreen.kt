@@ -1,4 +1,4 @@
-package com.asteroiddd.modeusanalyst.ui.views.screens
+package com.asteroiddd.modeusanalyst.ui.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -21,13 +21,16 @@ import androidx.compose.ui.unit.dp
 import com.asteroiddd.modeusanalyst.ui.theme.PaddingSmall
 import com.asteroiddd.modeusanalyst.ui.theme.Typography
 import com.asteroiddd.modeusanalyst.ui.theme.White
+import com.asteroiddd.modeusanalyst.ui.component.Container
+import com.asteroiddd.modeusanalyst.ui.component.Input
+import com.asteroiddd.modeusanalyst.ui.component.Screen
 
 @Composable
 fun EntryScreen() {
     val mail = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
 
-    _root_ide_package_.com.asteroiddd.modeusanalyst.ui.views.Screen {
+    Screen {
         Text(
             text = "Вход через учётную запись\nТюмГУ",
             style = Typography.titleMedium.copy(textAlign = TextAlign.Center),
@@ -36,21 +39,23 @@ fun EntryScreen() {
                 .padding(bottom = 100.dp)
         )
         Column(verticalArrangement = Arrangement.spacedBy(PaddingSmall)) {
-            _root_ide_package_.com.asteroiddd.modeusanalyst.ui.views.Container {
+            Container {
                 Input(
-                    mail,
-                    "username@utmn.study.ru"
+                    value = mail.value,
+                    placeholder = "username@utmn.study.ru",
+                    onValueChange = { mail.value = it }
                 )
             }
 
-            _root_ide_package_.com.asteroiddd.modeusanalyst.ui.views.Container {
+            Container {
                 Input(
-                    password,
-                    "Пароль"
+                    value = password.value,
+                    placeholder = "Пароль",
+                    onValueChange = { password.value = it }
                 )
             }
 
-            _root_ide_package_.com.asteroiddd.modeusanalyst.ui.views.Container(
+            Container(
                 clickable = true,
                 onClick = {}
             ) {
@@ -59,37 +64,3 @@ fun EntryScreen() {
         }
     }
 }
-
-@Composable
-fun Input(
-    text: MutableState<String>,
-    placeholder: String,
-) {
-    BasicTextField(
-        value = text.value,
-        onValueChange = { text.value = it },
-        textStyle = Typography.bodyMedium.copy(color = White),
-        cursorBrush = SolidColor(White),
-        singleLine = true,
-        modifier = Modifier
-            .fillMaxWidth(),
-        decorationBox = { innerTextField ->
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(Color.Transparent),
-                contentAlignment = Alignment.CenterStart
-            ) {
-                if (text.value.isEmpty()) {
-                    Text(
-                        text = placeholder,
-                        color = Color.Gray,
-                        style = Typography.bodyMedium
-                    )
-                }
-                innerTextField()
-            }
-        }
-    )
-}
-

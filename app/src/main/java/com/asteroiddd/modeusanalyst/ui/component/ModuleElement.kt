@@ -8,6 +8,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
+import com.asteroiddd.modeusanalyst.source.utils.setTextColor
 import com.asteroiddd.modeusanalyst.ui.theme.Typography
 
 @Composable
@@ -30,16 +31,21 @@ fun ModuleElement(
             Text(text = name,
                 style = Typography.bodyMedium.merge(style),
                 modifier = Modifier
-                    .weight(4f))
+                    .weight(4f)
+            )
             Text(
                 text = score,
+                color = setTextColor(score, "score"),
                 style = Typography.bodyMedium.copy(textAlign = TextAlign.Center).merge(style),
                 modifier = Modifier
-                    .weight(1f))
+                    .weight(1f)
+            )
             Text(text = mark,
+                color = setTextColor(mark, "mark"),
                 style = Typography.bodyMedium.copy(textAlign = TextAlign.Center).merge(style),
                 modifier = Modifier
-                    .weight(1f))
+                    .weight(1f)
+            )
         }
     }
 }

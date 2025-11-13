@@ -31,44 +31,42 @@ fun SettingsScreen() {
     val settingsRepository = remember { SettingsRepository(context) }
     val coroutineScope = rememberCoroutineScope()
 
-    val savedHost by settingsRepository.ollamaHostFlow.collectAsState(initial = null)
-    var hostTextState by remember { mutableStateOf("") }
+    val savedHost by settingsRepository.hostFlow.collectAsState(initial = "")
+
+    var hostText by remember { mutableStateOf("") }
 
     LaunchedEffect(savedHost) {
-        if (savedHost != null && savedHost != hostTextState) {
-            hostTextState = savedHost!!
-        }
+        hostText = savedHost
     }
 
     Screen {
         Text(
             text = "Настройки",
             style = Typography.titleMedium,
-            modifier = Modifier
-                .padding(bottom = PaddingMedium)
+            modifier = Modifier.padding(bottom = PaddingMedium)
         )
         Column(verticalArrangement = Arrangement.spacedBy(PaddingSmall)) {
+            Text(
+                text = "Сеть",
+                style = Typography.titleSmall,
+                modifier = Modifier
+                    .padding(bottom = PaddingMedium)
+            )
+
             Container(
-                clickable = true,
+                clickable = false,
                 onClick = {},
                 contentAlignment = Alignment.CenterStart
             ) {
-                Text("Выйти из профиля")
-            }
-
-            Container(
-                clickable = true,
-                contentAlignment = Alignment.CenterStart
-            ) {
                 Input(
-                    value = hostTextState,
+                    value = hostText,
                     onValueChange = { newHost ->
-                        hostTextState = newHost
+                        hostText = newHost
                         coroutineScope.launch {
-                            settingsRepository.saveOllamaHost(newHost)
+                            settingsRepository.saveHost(newHost)
                         }
                     },
-                    placeholder = "Хост Ollama",
+                    placeholder = "Хост",
                     modifier = Modifier.fillMaxWidth()
                 )
             }

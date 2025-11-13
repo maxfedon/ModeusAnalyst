@@ -10,6 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.text.input.VisualTransformation
 import com.asteroiddd.modeusanalyst.ui.theme.Typography
 import com.asteroiddd.modeusanalyst.ui.theme.White
 
@@ -18,6 +19,7 @@ fun Input(
     value: String,
     placeholder: String,
     modifier: Modifier = Modifier,
+    visualTransformation: VisualTransformation = VisualTransformation.None,
     onValueChange: (String) -> Unit = {}
 ) {
     BasicTextField(
@@ -26,6 +28,7 @@ fun Input(
         textStyle = Typography.bodyMedium.copy(color = White),
         cursorBrush = SolidColor(White),
         singleLine = true,
+        visualTransformation = visualTransformation,
         modifier = modifier
             .fillMaxWidth(),
         decorationBox = { innerTextField ->

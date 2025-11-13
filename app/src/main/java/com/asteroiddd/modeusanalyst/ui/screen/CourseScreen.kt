@@ -16,9 +16,7 @@ import com.asteroiddd.modeusanalyst.ui.component.Block
 import com.asteroiddd.modeusanalyst.ui.component.Screen
 
 @Composable
-fun CourseScreen(
-    commentText: String
-) {
+fun CourseScreen() {
     Screen {
         Text(
             text = "Общая успеваемость",
@@ -79,7 +77,7 @@ fun CourseScreen(
                         style = Typography.titleSmall
                     )
                     Text(
-                        text = commentText,
+                        text = "...",
                         style = Typography.bodyLarge
                     )
                 }

@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.serialization.json.Json
 
 class OllamaRepository(private val settingsRepository: SettingsRepository) {
-    var port = "80"
+    var port = "10001"
 
     private val client = HttpClient(CIO) {
         install(ContentNegotiation) {
@@ -33,7 +33,7 @@ class OllamaRepository(private val settingsRepository: SettingsRepository) {
         if (prompt.isBlank()) return Result.failure(IllegalArgumentException("Prompt cannot be empty"))
 
         val request = OllamaRequest(model = model, prompt = prompt, stream = true)
-        val host = settingsRepository.ollamaHostFlow.first()
+        val host = settingsRepository.hostFlow.first()
 
         return try {
             val httpResponse: HttpResponse = client.post("http://$host:$port/api/generate") {
@@ -63,7 +63,7 @@ class OllamaRepository(private val settingsRepository: SettingsRepository) {
     }
 
     suspend fun checkConnection(): Result<Unit> {
-        val host = settingsRepository.ollamaHostFlow.first()
+        val host = settingsRepository.hostFlow.first()
         return try {
             client.get("http://$host:$port/")
             Result.success(Unit)

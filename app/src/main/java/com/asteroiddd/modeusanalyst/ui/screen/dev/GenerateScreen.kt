@@ -33,7 +33,7 @@ fun GenerateScreen() {
     var uiState by remember { mutableStateOf<GenerateUiState>(GenerateUiState.Idle) }
 
     var prompt by remember { mutableStateOf("") }
-    var model by remember { mutableStateOf("llama2") }
+    var model by remember { mutableStateOf("Hermes-2-Pro") }
 
     Column(
         modifier = Modifier.padding(16.dp),
@@ -49,7 +49,7 @@ fun GenerateScreen() {
             value = model,
             onValueChange = { model = it },
             placeholder = "Model",
-            modifier = Modifier.fillMaxWidth().padding(top = 8.dp) // Add some spacing
+            modifier = Modifier.fillMaxWidth().padding(top = 8.dp)
         )
         Button(
             onClick = {

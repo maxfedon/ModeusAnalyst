@@ -11,8 +11,11 @@ import androidx.compose.ui.Modifier
 import com.asteroiddd.modeusanalyst.ui.theme.PaddingMedium
 
 @Composable
-fun Screen(content: @Composable () -> Unit) {
-    Column(modifier =  Modifier
+fun Screen(
+    modifier: Modifier = Modifier,
+    content: @Composable () -> Unit
+) {
+    Column(modifier =  modifier
         .padding(PaddingMedium)
         .verticalScroll(rememberScrollState())
     ) {

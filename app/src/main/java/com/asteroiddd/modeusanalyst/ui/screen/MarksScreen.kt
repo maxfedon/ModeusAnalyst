@@ -1,22 +1,32 @@
 package com.asteroiddd.modeusanalyst.ui.screen
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
-import com.asteroiddd.modeusanalyst.ui.component.ModuleElement
+import com.asteroiddd.modeusanalyst.source.repository.AuthRepository
+import com.asteroiddd.modeusanalyst.source.repository.ModeusRepository
+import com.asteroiddd.modeusanalyst.source.repository.SettingsRepository
+import com.asteroiddd.modeusanalyst.source.service.MarkService
 import com.asteroiddd.modeusanalyst.ui.component.Screen
-import com.asteroiddd.modeusanalyst.ui.theme.LightGray
 import com.asteroiddd.modeusanalyst.ui.theme.PaddingMedium
-import com.asteroiddd.modeusanalyst.ui.theme.PaddingSmall
 import com.asteroiddd.modeusanalyst.ui.theme.Typography
 
 @Composable
 fun MarksScreen(navController: NavController) {
+    val context = LocalContext.current
+    val authRepository = remember { AuthRepository(context) }
+    val settingsRepository = remember { SettingsRepository(context) }
+    val modeusRepository = remember { ModeusRepository(context, settingsRepository, authRepository) }
+    val markService = remember { MarkService() }
+
+    val moduleResults by modeusRepository.getMyResults().collectAsState(initial = emptyList())
+
     Screen {
         Text(
             text = "Текущая успеваемость",
@@ -24,38 +34,7 @@ fun MarksScreen(navController: NavController) {
             modifier = Modifier
                 .padding(bottom = PaddingMedium)
         )
-        Column(
-            verticalArrangement = Arrangement.spacedBy(PaddingSmall)
-        ) {
-            ModuleElement(
-                name = "Модуль",
-                score = "Баллы",
-                mark = "Оценка",
-                style = TextStyle(color = LightGray)
-            )
-            ModuleElement(
-                name = "Информационно-технологические решения на базе C# и Java",
-                score = "91",
-                mark = "5",
-                clickable = true,
-                onClick = {
-                    navController.navigate("module/Информационно-технологические решения на базе C# и Java/91/5")
-                }
-            )
-            ModuleElement(
-                name = "Администрирование информационных систем",
-                clickable = true,
-                onClick = {
-                    navController.navigate("module/Администрирование информационных систем/0/-")
-                }
-            )
-            ModuleElement(
-                name = "Web-ориентированные информационные системы",
-                clickable = true,
-                onClick = {
-                    navController.navigate("module/Web-ориентированные информационные системы/0/-")
-                }
-            )
-        }
+
+        markService.ModuleList(results = moduleResults, navController = navController)
     }
 }

@@ -1,30 +1,22 @@
 package com.asteroiddd.modeusanalyst.source.repository
 
 import android.content.Context
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.stringPreferencesKey
-import androidx.datastore.preferences.preferencesDataStore
+import com.asteroiddd.modeusanalyst.source.data.AppDatabase
+import com.asteroiddd.modeusanalyst.source.model.Setting
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
+class SettingsRepository(context: Context) {
 
-class SettingsRepository(private val context: Context) {
+    private val settingDao = AppDatabase.getDatabase(context).settingDao()
 
-    private object PreferencesKeys {
-        val OLLAMA_HOST = stringPreferencesKey("ollama_host")
+    companion object {
+        const val HOST = "host"
     }
 
-    val ollamaHostFlow: Flow<String> = context.dataStore.data
-        .map {
-            it[PreferencesKeys.OLLAMA_HOST] ?: ""
-        }
+    val hostFlow: Flow<String> = settingDao.get(HOST).map { it?.value ?: "10.232.66.94" }
 
-    suspend fun saveOllamaHost(host: String) {
-        context.dataStore.edit {
-            it[PreferencesKeys.OLLAMA_HOST] = host
-        }
+    suspend fun saveHost(host: String) {
+        settingDao.insert(Setting(HOST, host))
     }
 }

@@ -9,6 +9,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.asteroiddd.modeusanalyst.source.utils.setTextColor
 import com.asteroiddd.modeusanalyst.ui.component.Block
 import com.asteroiddd.modeusanalyst.ui.component.Screen
 import com.asteroiddd.modeusanalyst.ui.theme.PaddingMedium
@@ -44,6 +45,7 @@ fun ModuleScreen(
                     )
                     Text(
                         text = score,
+                        color = setTextColor(score, "score"),
                         style = Typography.bodyLarge
                     )
                 }
@@ -61,6 +63,7 @@ fun ModuleScreen(
                     )
                     Text(
                         text = mark,
+                        color = setTextColor(mark, "mark"),
                         style = Typography.bodyLarge
                     )
                 }

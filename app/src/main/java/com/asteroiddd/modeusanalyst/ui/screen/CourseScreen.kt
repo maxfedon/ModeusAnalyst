@@ -6,16 +6,15 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import com.asteroiddd.modeusanalyst.source.repository.AuthRepository
 import com.asteroiddd.modeusanalyst.source.repository.ModeusRepository
+import com.asteroiddd.modeusanalyst.source.repository.OllamaRepository
 import com.asteroiddd.modeusanalyst.source.repository.SettingsRepository
+import com.asteroiddd.modeusanalyst.source.service.AnalysisService
 import com.asteroiddd.modeusanalyst.source.utils.setTextColor
 import com.asteroiddd.modeusanalyst.ui.component.Block
 import com.asteroiddd.modeusanalyst.ui.component.PieChart
@@ -24,6 +23,8 @@ import com.asteroiddd.modeusanalyst.ui.component.Screen
 import com.asteroiddd.modeusanalyst.ui.theme.PaddingMedium
 import com.asteroiddd.modeusanalyst.ui.theme.PaddingSmall
 import com.asteroiddd.modeusanalyst.ui.theme.Typography
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @Composable
 fun CourseScreen() {
@@ -31,6 +32,7 @@ fun CourseScreen() {
     val authRepository = remember { AuthRepository(context) }
     val settingsRepository = remember { SettingsRepository(context) }
     val modeusRepository = remember { ModeusRepository(context, settingsRepository, authRepository) }
+    val analysisService = remember { AnalysisService(context, OllamaRepository(settingsRepository)) }
 
     val moduleResults by modeusRepository.getMyResults().collectAsState(initial = emptyList())
 
@@ -54,6 +56,27 @@ fun CourseScreen() {
                 null
             }
         }
+    }
+
+    val subjects = remember(moduleResults) { moduleResults.map { it.name }.joinToString(", ") }
+    var comment by remember(averageScore, subjects) { mutableStateOf(".") }
+
+    LaunchedEffect(averageScore, subjects) {
+        if (averageScore == 0f) return@LaunchedEffect
+
+        val animationJob = launch {
+            while (true) {
+                comment = "."
+                delay(300)
+                comment = ".."
+                delay(300)
+                comment = "..."
+                delay(300)
+            }
+        }
+
+        comment = analysisService.getCourseComment(averageScore, subjects)
+        animationJob.cancel()
     }
 
     Screen {
@@ -129,10 +152,11 @@ fun CourseScreen() {
                 ) {
                     Text(
                         text = "Комментарий",
-                        style = Typography.titleSmall
+                        style = Typography.titleSmall,
+                        modifier = Modifier.padding(bottom = PaddingSmall)
                     )
                     Text(
-                        text = "...",
+                        text = comment,
                         style = Typography.bodyLarge
                     )
                 }

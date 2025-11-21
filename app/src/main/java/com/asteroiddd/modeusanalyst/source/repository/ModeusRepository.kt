@@ -35,8 +35,8 @@ class ModeusRepository(
             json()
         }
         install(HttpTimeout) {
-            requestTimeoutMillis = 30000
-            connectTimeoutMillis = 30000
+            requestTimeoutMillis = 30_000
+            connectTimeoutMillis = 30_000
         }
     }
 

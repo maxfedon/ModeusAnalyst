@@ -9,7 +9,7 @@ import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.* 
 import io.ktor.serialization.kotlinx.json.* 
-import io.ktor.utils.io.* 
+import io.ktor.utils.io.*
 import kotlinx.coroutines.flow.first
 import kotlinx.serialization.json.Json
 
@@ -50,23 +50,11 @@ class OllamaRepository(private val settingsRepository: SettingsRepository) {
                     try {
                         val part = Json { ignoreUnknownKeys = true }.decodeFromString<OllamaSimpleResponse>(line)
                         textBuilder.append(part.response)
-                    } catch (_: Exception) {
-
-                    }
+                    } catch (e: Exception) { }
                 }
             }
 
             Result.success(textBuilder.toString())
-        } catch (e: Exception) {
-            Result.failure(e)
-        }
-    }
-
-    suspend fun checkConnection(): Result<Unit> {
-        val host = settingsRepository.hostFlow.first()
-        return try {
-            client.get("http://$host:$port/")
-            Result.success(Unit)
         } catch (e: Exception) {
             Result.failure(e)
         }

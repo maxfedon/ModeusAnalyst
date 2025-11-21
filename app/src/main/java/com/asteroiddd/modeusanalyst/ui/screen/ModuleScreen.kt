@@ -6,10 +6,14 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontStyle
+import com.asteroiddd.modeusanalyst.source.repository.OllamaRepository
+import com.asteroiddd.modeusanalyst.source.repository.SettingsRepository
+import com.asteroiddd.modeusanalyst.source.service.AnalysisService
 import com.asteroiddd.modeusanalyst.source.utils.setTextColor
 import com.asteroiddd.modeusanalyst.ui.component.Block
 import com.asteroiddd.modeusanalyst.ui.component.LineChart
@@ -17,6 +21,8 @@ import com.asteroiddd.modeusanalyst.ui.component.Screen
 import com.asteroiddd.modeusanalyst.ui.theme.PaddingMedium
 import com.asteroiddd.modeusanalyst.ui.theme.PaddingSmall
 import com.asteroiddd.modeusanalyst.ui.theme.Typography
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @Composable
 fun ModuleScreen(
@@ -25,6 +31,43 @@ fun ModuleScreen(
     mark: String,
     grades: List<String>
 ) {
+    val context = LocalContext.current
+    val analysisService = remember { AnalysisService(context, OllamaRepository(SettingsRepository(context))) }
+    var comment by remember(name) { mutableStateOf(".") }
+    var program by remember(name) { mutableStateOf(".") }
+
+    LaunchedEffect(name) {
+        val animationJob = launch {
+            while (true) {
+                comment = "."
+                delay(300)
+                comment = ".."
+                delay(300)
+                comment = "..."
+                delay(300)
+            }
+        }
+
+        comment = analysisService.getComment(name, score, grades)
+        animationJob.cancel()
+    }
+
+    LaunchedEffect(name) {
+        val animationJob = launch {
+            while (true) {
+                program = "."
+                delay(300)
+                program = ".."
+                delay(300)
+                program = "..."
+                delay(300)
+            }
+        }
+
+        program = analysisService.getProgram(name, score, grades)
+        animationJob.cancel()
+    }
+
     Screen {
         Text(
             text = name,
@@ -105,7 +148,7 @@ fun ModuleScreen(
                             .padding(bottom = PaddingMedium)
                     )
                     Text(
-                        text = "...",
+                        text = comment,
                         style = Typography.bodyLarge
                     )
                 }
@@ -122,7 +165,7 @@ fun ModuleScreen(
                             .padding(bottom = PaddingMedium)
                     )
                     Text(
-                        text = "...",
+                        text = program,
                         style = Typography.bodyLarge
                     )
                 }

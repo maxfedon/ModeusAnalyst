@@ -9,8 +9,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontStyle
 import com.asteroiddd.modeusanalyst.source.utils.setTextColor
 import com.asteroiddd.modeusanalyst.ui.component.Block
+import com.asteroiddd.modeusanalyst.ui.component.LineChart
 import com.asteroiddd.modeusanalyst.ui.component.Screen
 import com.asteroiddd.modeusanalyst.ui.theme.PaddingMedium
 import com.asteroiddd.modeusanalyst.ui.theme.PaddingSmall
@@ -20,7 +22,8 @@ import com.asteroiddd.modeusanalyst.ui.theme.Typography
 fun ModuleScreen(
     name: String,
     score: String,
-    mark: String
+    mark: String,
+    grades: List<String>
 ) {
     Screen {
         Text(
@@ -69,10 +72,60 @@ fun ModuleScreen(
                 }
             }
             Block {
-                Text(
-                    text = "График",
-                    style = Typography.titleSmall
-                )
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                ) {
+                    Text(
+                        text = "Динамика баллов",
+                        style = Typography.titleSmall,
+                        modifier = Modifier
+                            .padding(bottom = PaddingMedium)
+                    )
+                    val points = grades.mapNotNull { it.toFloatOrNull() }
+                    if (points.isNotEmpty()) {
+                        LineChart(points)
+                    } else {
+                        Text(
+                            text = "Нет данных",
+                            style = Typography.bodyLarge.copy(fontStyle = FontStyle.Italic)
+                        )
+                    }
+                }
+            }
+            Block {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                ) {
+                    Text(
+                        text = "Комментарий",
+                        style = Typography.titleSmall,
+                        modifier = Modifier
+                            .padding(bottom = PaddingMedium)
+                    )
+                    Text(
+                        text = "...",
+                        style = Typography.bodyLarge
+                    )
+                }
+            }
+            Block {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                ) {
+                    Text(
+                        text = "Программа",
+                        style = Typography.titleSmall,
+                        modifier = Modifier
+                            .padding(bottom = PaddingMedium)
+                    )
+                    Text(
+                        text = "...",
+                        style = Typography.bodyLarge
+                    )
+                }
             }
         }
     }

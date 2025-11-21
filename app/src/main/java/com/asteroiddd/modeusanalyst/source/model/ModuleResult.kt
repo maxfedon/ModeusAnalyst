@@ -9,5 +9,6 @@ import kotlinx.serialization.Serializable
 data class ModuleResult(
     @PrimaryKey val name: String,
     val score: String,
-    val mark: String
+    val mark: String,
+    val grades: List<String>
 )

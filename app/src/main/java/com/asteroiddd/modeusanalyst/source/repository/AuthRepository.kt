@@ -1,7 +1,7 @@
 package com.asteroiddd.modeusanalyst.source.repository
 
 import android.content.Context
-import com.asteroiddd.modeusanalyst.source.data.AppDatabase
+import com.asteroiddd.modeusanalyst.source.database.AppDatabase
 import com.asteroiddd.modeusanalyst.source.model.Auth
 import kotlinx.coroutines.flow.Flow
 

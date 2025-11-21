@@ -1,7 +1,7 @@
 package com.asteroiddd.modeusanalyst.source.repository
 
 import android.content.Context
-import com.asteroiddd.modeusanalyst.source.data.AppDatabase
+import com.asteroiddd.modeusanalyst.source.database.AppDatabase
 import com.asteroiddd.modeusanalyst.source.model.AuthRequest
 import com.asteroiddd.modeusanalyst.source.model.ModuleResult
 import io.ktor.client.HttpClient
@@ -35,8 +35,8 @@ class ModeusRepository(
             json()
         }
         install(HttpTimeout) {
-            requestTimeoutMillis = 20000
-            connectTimeoutMillis = 20000
+            requestTimeoutMillis = 30000
+            connectTimeoutMillis = 30000
         }
     }
 
@@ -80,9 +80,12 @@ class ModeusRepository(
             val name = element.select("a").first()?.text()?.trim()
             val score = element.select("td.current-result span").first()?.text()?.trim() ?: ""
             val mark = element.select("td.final-result span").first()?.text()?.trim() ?: ""
+            val grades = element.select(".lesson-realization.ng-star-inserted")
+                .mapNotNull { it.text()?.trim() }
+                .filter { it.toIntOrNull() != null }
 
             if (name != null) {
-                moduleResults.add(ModuleResult(name, score, mark))
+                moduleResults.add(ModuleResult(name, score, mark, grades))
             }
         }
 

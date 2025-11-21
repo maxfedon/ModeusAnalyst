@@ -186,16 +186,18 @@ private fun MainNavigation(navController: NavHostController) {
         composable("marks") { MarksScreen(navController) }
         composable("settings") { SettingsScreen() }
         composable(
-            route = "module/{name}/{score}/{mark}",
+            route = "module/{name}/{score}/{mark}/{grades}",
             arguments = listOf(
                 navArgument("name") { type = NavType.StringType },
                 navArgument("score") { type = NavType.StringType },
-                navArgument("mark") { type = NavType.StringType })
+                navArgument("mark") { type = NavType.StringType },
+                navArgument("grades") { type = NavType.StringType })
         ) {
             val name = it.arguments?.getString("name") ?: ""
             val score = it.arguments?.getString("score") ?: "0"
             val mark = it.arguments?.getString("mark") ?: "-"
-            ModuleScreen(name = name, score = score, mark = mark)
+            val grades = it.arguments?.getString("grades")?.split(",") ?: emptyList()
+            ModuleScreen(name = name, score = score, mark = mark, grades = grades)
         }
     }
 }

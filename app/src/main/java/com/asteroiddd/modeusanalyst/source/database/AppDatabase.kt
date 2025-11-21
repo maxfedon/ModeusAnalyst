@@ -1,14 +1,16 @@
-package com.asteroiddd.modeusanalyst.source.data
+package com.asteroiddd.modeusanalyst.source.database
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.asteroiddd.modeusanalyst.source.model.Auth
 import com.asteroiddd.modeusanalyst.source.model.ModuleResult
 import com.asteroiddd.modeusanalyst.source.model.Setting
 
-@Database(entities = [ModuleResult::class, Setting::class, Auth::class], version = 2, exportSchema = false)
+@Database(entities = [ModuleResult::class, Setting::class, Auth::class], version = 3, exportSchema = false)
+@TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun authDao(): AuthDao
@@ -26,8 +28,8 @@ abstract class AppDatabase : RoomDatabase() {
                     AppDatabase::class.java,
                     "modeus_analyst_database"
                 )
-                .fallbackToDestructiveMigration()
-                .build()
+                    .fallbackToDestructiveMigration(false)
+                    .build()
                 INSTANCE = instance
                 instance
             }

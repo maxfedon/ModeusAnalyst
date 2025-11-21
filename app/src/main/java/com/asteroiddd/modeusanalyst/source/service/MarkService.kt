@@ -34,7 +34,8 @@ class MarkService {
                     mark = result.mark,
                     clickable = true,
                     onClick = {
-                        navController.navigate("module/${result.name}/${result.score}/${result.mark}")
+                        val grades = result.grades.joinToString(",")
+                        navController.navigate("module/${result.name}/${result.score}/${result.mark}/$grades")
                     }
                 )
             }

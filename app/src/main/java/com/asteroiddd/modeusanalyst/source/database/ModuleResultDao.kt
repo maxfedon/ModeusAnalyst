@@ -1,4 +1,4 @@
-package com.asteroiddd.modeusanalyst.source.data
+package com.asteroiddd.modeusanalyst.source.database
 
 import androidx.room.Dao
 import androidx.room.Insert

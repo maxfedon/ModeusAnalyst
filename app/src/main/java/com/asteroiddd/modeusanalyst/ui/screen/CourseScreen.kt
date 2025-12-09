@@ -59,28 +59,38 @@ fun CourseScreen() {
     }
 
     val subjects = remember(moduleResults) { moduleResults.map { it.name }.joinToString(", ") }
-    var comment by remember(averageScore, subjects) { mutableStateOf("") }
-    var isCommentLoading by remember(averageScore, subjects) { mutableStateOf(true) }
+    var comment by remember(averageScore, subjects) { mutableStateOf<String?>(null) }
+    var animatedLoadingText by remember { mutableStateOf("") }
+
+    LaunchedEffect(comment) {
+        if (comment == null) {
+            while (true) {
+                animatedLoadingText = "."
+                delay(300)
+                animatedLoadingText = ".."
+                delay(300)
+                animatedLoadingText = "..."
+                delay(300)
+            }
+        }
+    }
 
     LaunchedEffect(averageScore, subjects) {
         if (averageScore == 0f) {
             comment = "Нет данных для анализа."
-            isCommentLoading = false
             return@LaunchedEffect
         }
-        
-        comment = ""
-        isCommentLoading = true
+
+        comment = null
 
         launch {
-            analysisService.getCourseComment(averageScore, subjects)
-                .collect { chunk ->
-                    if (isCommentLoading) isCommentLoading = false
-                    for (char in chunk) {
-                        comment += char
-                        delay(5) // Adjust the delay for typing speed
-                    }
+            analysisService.getCourseComment(averageScore, subjects).collect { chunk ->
+                if (comment == null) comment = ""
+                for (char in chunk) {
+                    comment += char
+                    delay(5)
                 }
+            }
         }
     }
 
@@ -161,7 +171,7 @@ fun CourseScreen() {
                         modifier = Modifier.padding(bottom = PaddingSmall)
                     )
                     Text(
-                        text = if (isCommentLoading) "..." else comment,
+                        text = comment ?: animatedLoadingText,
                         style = Typography.bodyLarge
                     )
                 }

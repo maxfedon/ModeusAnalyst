@@ -33,37 +33,44 @@ fun ModuleScreen(
 ) {
     val context = LocalContext.current
     val analysisService = remember { AnalysisService(context, OllamaRepository(SettingsRepository(context))) }
-    var comment by remember(name) { mutableStateOf("") }
-    var program by remember(name) { mutableStateOf("") }
-    var isCommentLoading by remember(name) { mutableStateOf(true) }
-    var isProgramLoading by remember(name) { mutableStateOf(true) }
+    var comment by remember(name) { mutableStateOf<String?>(null) }
+    var program by remember(name) { mutableStateOf<String?>(null) }
+
+    var animatedLoadingText by remember { mutableStateOf("") }
+
+    LaunchedEffect(comment, program) {
+        if (comment == null || (comment != null && program == null)) {
+            while (true) {
+                animatedLoadingText = "."
+                delay(300)
+                animatedLoadingText = ".."
+                delay(300)
+                animatedLoadingText = "..."
+                delay(300)
+            }
+        }
+    }
 
     LaunchedEffect(name) {
-        comment = ""
-        program = ""
-        isCommentLoading = true
-        isProgramLoading = true
+        comment = null
+        program = null
 
         launch {
-            analysisService.getComment(name, score, grades)
-                .collect { chunk ->
-                    if (isCommentLoading) isCommentLoading = false
-                    for (char in chunk) {
-                        comment += char
-                        delay(5) // Adjust the delay for typing speed
-                    }
+            analysisService.getComment(name, score, grades).collect { chunk ->
+                if (comment == null) comment = ""
+                for (char in chunk) {
+                    comment += char
+                    delay(5)
                 }
-        }
+            }
 
-        launch {
-            analysisService.getProgram(name, score, grades)
-                .collect { chunk ->
-                    if (isProgramLoading) isProgramLoading = false
-                    for (char in chunk) {
-                        program += char
-                        delay(5) // Adjust the delay for typing speed
-                    }
+            analysisService.getProgram(name, score, grades).collect { chunk ->
+                if (program == null) program = ""
+                for (char in chunk) {
+                    program += char
+                    delay(5)
                 }
+            }
         }
     }
 
@@ -147,7 +154,7 @@ fun ModuleScreen(
                             .padding(bottom = PaddingMedium)
                     )
                     Text(
-                        text = if (isCommentLoading) "..." else comment,
+                        text = comment ?: animatedLoadingText,
                         style = Typography.bodyLarge
                     )
                 }
@@ -164,7 +171,7 @@ fun ModuleScreen(
                             .padding(bottom = PaddingMedium)
                     )
                     Text(
-                        text = if (isProgramLoading) "..." else program,
+                        text = if (comment != null) program ?: animatedLoadingText else "...",
                         style = Typography.bodyLarge
                     )
                 }

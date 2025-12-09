@@ -23,7 +23,6 @@ import com.asteroiddd.modeusanalyst.ui.component.Screen
 import com.asteroiddd.modeusanalyst.ui.theme.PaddingMedium
 import com.asteroiddd.modeusanalyst.ui.theme.PaddingSmall
 import com.asteroiddd.modeusanalyst.ui.theme.Typography
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
@@ -59,24 +58,22 @@ fun CourseScreen() {
     }
 
     val subjects = remember(moduleResults) { moduleResults.map { it.name }.joinToString(", ") }
-    var comment by remember(averageScore, subjects) { mutableStateOf(".") }
+    var comment by remember(averageScore, subjects) { mutableStateOf("") }
 
     LaunchedEffect(averageScore, subjects) {
-        if (averageScore == 0f) return@LaunchedEffect
-
-        val animationJob = launch {
-            while (true) {
-                comment = "."
-                delay(300)
-                comment = ".."
-                delay(300)
-                comment = "..."
-                delay(300)
-            }
+        if (averageScore == 0f) {
+            comment = "Нет данных для анализа."
+            return@LaunchedEffect
         }
+        
+        comment = ""
 
-        comment = analysisService.getCourseComment(averageScore, subjects)
-        animationJob.cancel()
+        launch {
+            analysisService.getCourseComment(averageScore, subjects)
+                .collect { chunk ->
+                    comment += chunk
+                }
+        }
     }
 
     Screen {
@@ -156,7 +153,7 @@ fun CourseScreen() {
                         modifier = Modifier.padding(bottom = PaddingSmall)
                     )
                     Text(
-                        text = comment,
+                        text = comment.ifEmpty { "..." },
                         style = Typography.bodyLarge
                     )
                 }

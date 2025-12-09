@@ -14,7 +14,7 @@ class SettingsRepository(context: Context) {
         const val HOST = "host"
     }
 
-    val hostFlow: Flow<String> = settingDao.get(HOST).map { it?.value ?: "10.232.66.94" }
+    val hostFlow: Flow<String> = settingDao.get(HOST).map { it?.value ?: "10.250.246.94" }
 
     suspend fun saveHost(host: String) {
         settingDao.insert(Setting(HOST, host))

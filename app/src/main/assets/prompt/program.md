@@ -15,4 +15,4 @@ Create a structured study program for the subject: topics, skills, and learning 
 - Grading scale: 0–60 = unsatisfactory; 61–75 = satisfactory; 76–90 = good; 91–100 = excellent.
 
 # Output Format
-Plain text in Russian with structure: topics and corresponding key skills. Maximum length: 1000 characters, no Markdown.
+Plain text in Russian with structure: topics and corresponding key skills. Maximum length: 1500 characters, no Markdown.

@@ -21,7 +21,6 @@ import com.asteroiddd.modeusanalyst.ui.component.Screen
 import com.asteroiddd.modeusanalyst.ui.theme.PaddingMedium
 import com.asteroiddd.modeusanalyst.ui.theme.PaddingSmall
 import com.asteroiddd.modeusanalyst.ui.theme.Typography
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
@@ -33,39 +32,26 @@ fun ModuleScreen(
 ) {
     val context = LocalContext.current
     val analysisService = remember { AnalysisService(context, OllamaRepository(SettingsRepository(context))) }
-    var comment by remember(name) { mutableStateOf(".") }
-    var program by remember(name) { mutableStateOf(".") }
+    var comment by remember(name) { mutableStateOf("") }
+    var program by remember(name) { mutableStateOf("") }
 
     LaunchedEffect(name) {
-        val animationJob = launch {
-            while (true) {
-                comment = "."
-                delay(300)
-                comment = ".."
-                delay(300)
-                comment = "..."
-                delay(300)
-            }
+        comment = ""
+        program = ""
+
+        launch {
+            analysisService.getComment(name, score, grades)
+                .collect { chunk ->
+                    comment += chunk
+                }
         }
 
-        comment = analysisService.getComment(name, score, grades)
-        animationJob.cancel()
-    }
-
-    LaunchedEffect(name) {
-        val animationJob = launch {
-            while (true) {
-                program = "."
-                delay(300)
-                program = ".."
-                delay(300)
-                program = "..."
-                delay(300)
-            }
+        launch {
+            analysisService.getProgram(name, score, grades)
+                .collect { chunk ->
+                    program += chunk
+                }
         }
-
-        program = analysisService.getProgram(name, score, grades)
-        animationJob.cancel()
     }
 
     Screen {
@@ -148,7 +134,7 @@ fun ModuleScreen(
                             .padding(bottom = PaddingMedium)
                     )
                     Text(
-                        text = comment,
+                        text = comment.ifEmpty { "..." },
                         style = Typography.bodyLarge
                     )
                 }
@@ -165,7 +151,7 @@ fun ModuleScreen(
                             .padding(bottom = PaddingMedium)
                     )
                     Text(
-                        text = program,
+                        text = program.ifEmpty { "..." },
                         style = Typography.bodyLarge
                     )
                 }

@@ -22,6 +22,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.asteroiddd.modeusanalyst.source.model.Auth
 import com.asteroiddd.modeusanalyst.source.repository.AuthRepository
+import com.asteroiddd.modeusanalyst.source.repository.SettingsRepository
 import com.asteroiddd.modeusanalyst.ui.component.Container
 import com.asteroiddd.modeusanalyst.ui.component.Input
 import com.asteroiddd.modeusanalyst.ui.component.Screen
@@ -36,12 +37,15 @@ fun EntryScreen(
 ) {
     val context = LocalContext.current
     val authRepository = remember { AuthRepository(context) }
+    val settingsRepository = remember { SettingsRepository(context) }
     val coroutineScope = rememberCoroutineScope()
 
     val savedAuth by authRepository.getAuth().collectAsState(initial = null)
+    val host by settingsRepository.hostFlow.collectAsState(initial = "")
 
     var usernameText by remember { mutableStateOf("") }
     var passwordText by remember { mutableStateOf("") }
+    var hostText by remember { mutableStateOf("") }
 
     LaunchedEffect(savedAuth) {
         savedAuth?.let {
@@ -49,13 +53,17 @@ fun EntryScreen(
             passwordText = it.password
         }
     }
+    LaunchedEffect(host) {
+        hostText = host
+    }
 
-    Screen (
+    Screen(
         modifier = Modifier
             .background(Black)
     ) {
-        Spacer(modifier = Modifier
-            .padding(top = 24.dp)
+        Spacer(
+            modifier = Modifier
+                .padding(top = 24.dp)
         )
         Text(
             text = "Вход через\nучётную запись\nТюмГУ",
@@ -82,11 +90,20 @@ fun EntryScreen(
                 )
             }
 
+            Container {
+                Input(
+                    value = hostText,
+                    onValueChange = { hostText = it },
+                    placeholder = "Хост"
+                )
+            }
+
             Container(
                 clickable = true,
                 onClick = {
                     coroutineScope.launch {
                         authRepository.saveAuth(Auth(username = usernameText, password = passwordText))
+                        settingsRepository.saveHost(hostText)
                         onLogin()
                     }
                 }
